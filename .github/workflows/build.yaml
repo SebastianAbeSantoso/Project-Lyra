@@ -1,0 +1,17 @@
+name: Build on Tag
+
+on:
+  push:
+      tags:
+          - 'v*'
+
+jobs:
+    test:
+        runs-on:ubuntu-latest
+
+        steps:
+          - name: Checkout repo
+          - uses: actions/checkout@v4
+
+          - Show version
+          - run echo "Building version ${{ github.ref_name }}"

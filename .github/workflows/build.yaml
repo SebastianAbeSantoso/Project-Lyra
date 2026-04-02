@@ -11,5 +11,21 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-      - name: Show version
-        run: echo "Building version ${{ github.ref_name }}"
+        
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with: 
+          distribution: 'temurin'
+          java-verson: '17'
+
+      - name: Setup Gradle cache
+        uses: gradle/actions/setup-grade@v3
+
+      - name: Build project
+        uses: ./gradlew build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-build
+          path: build/

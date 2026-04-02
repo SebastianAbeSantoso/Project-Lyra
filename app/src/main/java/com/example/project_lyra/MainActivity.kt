@@ -5,16 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.project_lyra.ui.theme.ProjectLyraTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,24 +22,35 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ProjectLyraTheme {
-                if (State) {
-                    myHomePage()
-                } else {
-                    myHomePage()
-                }
+                App()
             }
         }
     }
 }
 
-enum class GlobalState {
-    LOGIN, HOME
+sealed class ScreenState (val router: String){
+    object Home : Screen("home")
+    object Login : Screen("login")
 }
 
-var State by remember { mutableStateOf(GlobalState.LOGIN) }
+@Composable
+fun App(vm: MainViewModel = viewModel()) {
+
+}
+
+class MainViewModel : ViewModel() {
+    var state by mutableStateOf(UiState.Home)
+        private set
+
+    fun navigateTo(newState: UiState.Login){
+        state = newState
+    }
+}
+
+
 
 @Composable
-fun myHomePage {
+fun HomeScreen() {
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -52,10 +62,14 @@ fun myHomePage {
     }
 }
 
+sealed class HomeScreenState (){
+
+}
+
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun AppPreview() {
     ProjectLyraTheme {
-        myHomePage()
+        App()
     }
 }

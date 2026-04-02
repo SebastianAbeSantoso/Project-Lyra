@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  test:
+  build_web_app:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -19,7 +19,7 @@ jobs:
           java-verson: '17'
 
       - name: Setup Gradle cache
-        uses: gradle/actions/setup-grade@v3
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Build project
         uses: ./gradlew build
